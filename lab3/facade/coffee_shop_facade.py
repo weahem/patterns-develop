@@ -66,7 +66,7 @@ class CoffeeShopFacade:
     # Вспомогательные методы для создания напитков и добавления ингредиентов
     def _create_beverage(self, name: str):
         """Создаёт базовый напиток по имени."""
-        from beverage.base import Espresso, Latte, Cappuccino
+        from lab3.beverage.base import Espresso, Latte, Cappuccino
         if name == "espresso":
             return Espresso()
         elif name == "latte":
@@ -78,15 +78,15 @@ class CoffeeShopFacade:
 
     def _add_sugar(self, beverage: Beverage, spoons: int = 1):
         """Добавляет сахар в напиток."""
-        from condiment.decorators import Sugar
+        from lab3.condiment.decorators import Sugar
         return Sugar(beverage, spoons)
 
     def _add_milk(self, beverage: Beverage):
         """Добавляет молоко в напиток."""
-        from condiment.decorators import Milk
+        from lab3.condiment.decorators import Milk
         return Milk(beverage)
 
     def _add_cinnamon(self, beverage: Beverage):
         """Добавляет корицу в напиток."""
-        from condiment.decorators import Cinnamon
+        from lab3.condiment.decorators import Cinnamon
         return Cinnamon(beverage)
