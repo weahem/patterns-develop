@@ -1,6 +1,6 @@
 import sys
-from strategies.payment_strategy import PaymentStrategy
 from models.order import Order
+from strategies.payment_strategy import PaymentStrategy
 from models.order_item import OrderItem
 from strategies.cash_payment import CashPayment
 from strategies.card_payment import CardPayment
@@ -49,8 +49,6 @@ class OrderRepository:
 def build_order() -> Order:
     """Сборка заказа через консоль"""
     items = []
-    subtotal = 0.0
-
     print("--- Сбор заказа ---\nМеню:")
     for i, (name, price) in enumerate(MENU, 1):
         print(f"{i}) {name} — {price:.2f} $.")
@@ -66,8 +64,6 @@ def build_order() -> Order:
                 qty = int(input(f"Количество для {name}: "))
                 if qty > 0:
                     items.append(OrderItem(name, price, qty))
-                    subtotal += price * qty
-                    print(f"Добавлено: {name} x{qty}. Промежуточная сумма: {subtotal:.2f} $.")
                 else:
                     print("Количество должно быть больше 0.")
             else:
@@ -79,6 +75,7 @@ def build_order() -> Order:
         print("Заказ пустой.")
         return None
 
+    # Создаём заказ БЕЗ total и payment_method — они будут заполнены позже
     return Order(items=items, payment_method="", total=0.0)
 
 def choose_payment_strategy() -> PaymentStrategy:
@@ -144,15 +141,23 @@ def main():
 
             strategy = choose_payment_strategy()
 
-            # Создаем команду размещения заказа
-            cmd = PlaceOrderCommand(repo, order, strategy, notifier)
+            # === ПРЕДВАРИТЕЛЬНЫЙ РАСЧЁТ ДЛЯ ПРЕДПРОСМОТРА ===
+            subtotal = order.recalc_subtotal()
+            final_total = strategy.calculate_total(subtotal)
+            order.total = final_total
+            order.payment_method = strategy.name()
+            # ================================================
 
-            # Показываем предварительный просмотр
+            # Рассчитываем итоговую сумму для предпросмотра
+            
+
             print("\n--- Просмотр заказа ---")
             print(order.summary())
 
             confirm = input("Подтвердить заказ? (д/н): ").strip().lower()
             if confirm in ('д', 'y', 'yes', 'да'):
+                # Команда выполнит тот же расчёт, но уже в рамках execute (добавит в базу, уведомит и т.д.)
+                cmd = PlaceOrderCommand(repo, order, strategy, notifier)
                 cmd.execute()
                 history.push(cmd)
             else:
