@@ -1,5 +1,3 @@
-# facade/coffee_shop_facade.py - Фасад кофейни (Facade Pattern)
-
 from lab3.order.order import Order
 from lab3.machine.adapter import MachineAdapter
 from lab3.beverage.base import Beverage

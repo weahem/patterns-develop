@@ -1,5 +1,3 @@
-# condiment/decorators.py - Декораторы для ингредиентов (Concrete Decorators)
-
 from abc import ABC, abstractmethod
 from lab3.beverage.base import Beverage
 

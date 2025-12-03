@@ -1,5 +1,3 @@
-# machine/adapter.py - Адаптер и новый интерфейс (Adapter Pattern)
-
 from .legacy import LegacyCoffeeMachine
 from lab3.beverage.base import Espresso, Latte, Cappuccino
 from lab3.condiment.decorators import CondimentDecorator, Sugar, Milk, Cinnamon

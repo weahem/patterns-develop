@@ -1,5 +1,3 @@
-# main.py - Главный файл приложения кофейни
-
 from lab3.facade.coffee_shop_facade import CoffeeShopFacade
 
 def main():

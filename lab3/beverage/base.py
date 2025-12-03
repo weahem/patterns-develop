@@ -1,4 +1,3 @@
-# beverage/base.py - Базовые классы напитков (Component)
 
 class Beverage:
     """

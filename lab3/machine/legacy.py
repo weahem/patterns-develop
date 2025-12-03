@@ -1,5 +1,3 @@
-# machine/legacy.py - Старая кофемашина (Adaptee)
-
 class LegacyCoffeeMachine:
     """
     Устаревший класс кофемашины. Имеет свой собственный интерфейс.
